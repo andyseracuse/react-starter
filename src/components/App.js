@@ -10,7 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       movies:[],
-      filteredMovies: null,
+      displayedMovies: [],
       view:"To Watch"
     }
 
@@ -18,28 +18,24 @@ class App extends React.Component {
     this.resetList = this.resetList.bind(this);
     this.addClick = this.addClick.bind(this);
     this.changeView = this.changeView.bind(this);
+    this.changeWatched = this.changeWatched.bind(this);
   }
  
 
   resetList (query){
-    this.setState({filteredMovies: null})
+    var allMovies = this.state.movies.slice();
+    this.setState({displayedMovies: allMovies})
   }
-
-  addClick(input) {
-    var updatedMovies = this.state.movies;
-    updatedMovies.push({title: input});
-    this.setState({movies:updatedMovies});
-  }
-
   searchClick(query) {
     var queryWords = query.toLowerCase().split(' ');
     var matches =[]
-    for (var i = 0; i < this.state.movies.length; i++) {
-      var movieTitle = this.state.movies[i].title.toLowerCase();
+    var allDisplayedMovies = this.state.displayedMovies.slice();
+    for (var i = 0; i < allDisplayedMovies.length; i++) {
+      var movieTitle = allDisplayedMovies[i].title.toLowerCase();
       var movieWords = movieTitle.split(' ')
       for (var j = 0; j < movieWords.length; j++) {
         if (queryWords.includes(movieWords[j])) {
-          matches.push(this.state.movies[i]);
+          matches.push(allDisplayedMovies[i]);
           break;
         }
       }
@@ -47,19 +43,67 @@ class App extends React.Component {
     if (matches.length === 0) {
       matches = [{title:'No movies Found'}]
     }  
-    this.setState({filteredMovies:matches}) 
+    this.setState({displayedMovies:matches}) 
   }
+  reRenderMovieList() {
+    console.log('movies on rerender', this.state.movies)
+    var newDisplayedMovies = []
+    for(var i = 0; i < this.state.movies.length; i++) {
+      if(this.state.movies[i].watchStatus === this.state.view) {
+        newDisplayedMovies.push(this.state.movies[i])
+      }
+    }
+    this.setState({displayedMovies: newDisplayedMovies})
+  }
+
+  addClick(input) {
+    var updatedMovies = this.state.movies.slice();
+    updatedMovies.push({title: input, watchStatus:'To Watch'});
+    this.setState({movies:updatedMovies}, this.reRenderMovieList);
+    // if it doesn't rerender when something is added there should be functionality which handles
+    // putting it on the to watch view
+  }
+  changeWatched (movie) {
+    var updatedMovies = this.state.movies.slice()
+    for(var i = 0; i < updatedMovies.length; i++) {
+      if (updatedMovies[i].title = movie.title) {
+        if (updatedMovies[i].watchStatus === 'Watched') {
+          updatedMovies[i].watchStatus = "To Watch"
+        } else{
+          updatedMovies[i].watchStatus = "Watched"
+        }
+      }
+    }
+    this.setState({movies:updatedMovies},this.reRenderMovieList)
+  }
+
+
+
   changeView(buttonPressed) {
+    var newState;
     if(buttonPressed !== this.state.view) {
       this.setState({view:buttonPressed})
+      newState = buttonPressed
+      var updatedDisplayedMovies = [];
+      for (var i = 0; i < this.state.movies.length; i++) {
+        if (this.state.movies[i].watchStatus === buttonPressed) {
+          updatedDisplayedMovies.push(this.state.movies[i])
+        }
+      }
+      this.setState({displayedMovies:updatedDisplayedMovies})
     }
   }
+
+  componentDidMount() {
+    var allMovies = this.state.movies.slice()
+    this.setState({displayedMovies:allMovies})
+  }
+
   render(){
-    console.log('viewState', this.state.view)
     return(
     <div className="movieListContainer">
       <div>
-        <MovieAdder addClick={this.addClick}/>
+        <MovieAdder movies={this.state.movies} addClick={this.addClick}/>
       </div>
       <div className="watch-search-container">
         <div className="watch-buttons-container">
@@ -69,7 +113,7 @@ class App extends React.Component {
         <Search searchClick={this.searchClick} resetList={this.resetList}></Search>
       </div>
       <div>
-        <MovieList filteredMovies = {this.state.filteredMovies} movies = {this.state.movies}/>
+        <MovieList displayedMovies={this.state.displayedMovies} changeWatched={this.changeWatched}/>
       </div>
     </div>
   )}

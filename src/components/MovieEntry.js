@@ -1,11 +1,28 @@
 import React from 'react';
+import InfoPane from './InfoPane.js'
 
-function MovieList(props) {
-  return (
-    <div className="movieEntry">
-        <h3 className="movieTitle"> {props.movie.title}</h3> 
-    </div>
-  )
+class MovieEntry extends React.Component {
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      expanded: false
+    }
+
+    this.expand = this.expand.bind(this);
+  }
+  
+  expand(){
+    var currentExpansion = this.state.expanded
+    this.setState({expanded: !currentExpansion})
+  }
+
+  render () {
+    return (<div className="movieEntry" onClick={this.expand}>
+        <h3 className="movieTitle"> {this.props.movie.title}</h3> 
+        <InfoPane changeWatched={this.props.changeWatched} movie={this.props.movie} expanded={this.state.expanded}/>
+    </div>)
+  }
 }
 
-export default MovieList
+export default MovieEntry
