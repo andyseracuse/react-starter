@@ -1,7 +1,7 @@
 import React from 'react';
 import InfoPane from './InfoPane.js'
 
-class MovieEntry extends React.Component {
+class SearchedMovieEntry extends React.Component {
   
   constructor(props) {
     super(props)
@@ -18,13 +18,14 @@ class MovieEntry extends React.Component {
   }
 
   render () {
-    console.log('movies', this.props.movie)
     return (<div className="movieEntry" onClick={this.expand}>
+      <div className="searchedMovieTitle">
         <h3 className="movieTitle"> {this.props.movie.title}</h3> 
-        <button onClick={() => this.props.changeWatched(this.props.movie)}>Currently In:{this.props.movie.watchStatus}, Press to change</button>
+        <button onClick={() => this.props.addClick (this.props.movie)}>Add Movie</button>
+      </div>
         <InfoPane changeWatched={this.props.changeWatched} movie={this.props.movie} expanded={this.state.expanded}/>
     </div>)
   }
 }
 
-export default MovieEntry
+export default SearchedMovieEntry

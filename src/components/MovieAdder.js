@@ -13,7 +13,7 @@ class MovieAdder extends React.Component {
 
   submitHandler(event) {
     event.preventDefault();
-    this.props.addClick(this.state.input)
+    this.props.searchTMDB(this.state.input)
 
   }
 
@@ -25,7 +25,7 @@ class MovieAdder extends React.Component {
     return (
       <form onSubmit={this.submitHandler}>
         <input type="text" value={this.state.input} placeholder="add movie title here" onChange={this.changeHandler}></input>
-        <button>Add</button>
+        <button>Search</button>
       </form>
     )
   }

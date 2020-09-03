@@ -4,6 +4,8 @@ import Search from './Search.js'
 import '../main.css'
 import MovieAdder from './MovieAdder.js';
 import WatchButton from './WatchButton.js';
+import $ from '../../node_modules/jquery'
+import SearchedMoviesList from './SearchedMoviesList.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,7 +13,8 @@ class App extends React.Component {
     this.state = {
       movies:[],
       displayedMovies: [],
-      view:"To Watch"
+      view:"To Watch",
+      searchedMovies: []
     }
 
     this.searchClick =this.searchClick.bind(this);
@@ -19,6 +22,14 @@ class App extends React.Component {
     this.addClick = this.addClick.bind(this);
     this.changeView = this.changeView.bind(this);
     this.changeWatched = this.changeWatched.bind(this);
+    this.searchTMDB = this.searchTMDB.bind(this);
+  }
+
+  searchTMDB(query) {
+    var htmlQuery = query.split(' ').join('+')
+    $.get('https://api.themoviedb.org/3/search/movie', {
+      query: htmlQuery, api_key:'85ba32a035cd1f9de6ef5804579c88cd'}
+      ,(data) => {this.setState({searchedMovies: data.results}, console.log(data.results))})
   }
  
 
@@ -56,9 +67,10 @@ class App extends React.Component {
     this.setState({displayedMovies: newDisplayedMovies})
   }
 
-  addClick(input) {
+  addClick(movie) {
     var updatedMovies = this.state.movies.slice();
-    updatedMovies.push({title: input, watchStatus:'To Watch'});
+    movie.watchStatus = 'To Watch';
+    updatedMovies.push(movie);
     this.setState({movies:updatedMovies}, this.reRenderMovieList);
     // if it doesn't rerender when something is added there should be functionality which handles
     // putting it on the to watch view
@@ -103,7 +115,8 @@ class App extends React.Component {
     return(
     <div className="movieListContainer">
       <div>
-        <MovieAdder movies={this.state.movies} addClick={this.addClick}/>
+        <MovieAdder searchTMDB={this.searchTMDB} movies={this.state.movies}/>
+        <SearchedMoviesList addClick={this.addClick} searchedMovies={this.state.searchedMovies}/>
       </div>
       <div className="watch-search-container">
         <div className="watch-buttons-container">

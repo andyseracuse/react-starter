@@ -6,12 +6,3 @@ var MovieList = (props) => {
 }
 
 export default MovieList
-
-/* .props.movies.map((movie) => (
-  <div className="movieEntry">
-  <h3 className="movieTitle"> {movie.title}</h3>
-  </div>
-  ))}
-  </div>
-) */
-
