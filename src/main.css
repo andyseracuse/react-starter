@@ -13,3 +13,25 @@ body {
   align-items: center;
   background-color: grey
 }
+.watch-search-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px;
+}
+.movieListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+#watched {
+  height: 50px;
+}
+
+.watch-buttons-container{
+  margin: 10px;
+}
+.watch-buttons{
+  height: 40px;
+}
