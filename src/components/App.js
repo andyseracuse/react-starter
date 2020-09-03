@@ -3,18 +3,21 @@ import MovieList from './MovieList.js'
 import Search from './Search.js'
 import '../main.css'
 import MovieAdder from './MovieAdder.js';
+import WatchButton from './WatchButton.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movies:[],
-      filteredMovies: null
+      filteredMovies: null,
+      view:"To Watch"
     }
 
     this.searchClick =this.searchClick.bind(this);
     this.resetList = this.resetList.bind(this);
     this.addClick = this.addClick.bind(this);
+    this.changeView = this.changeView.bind(this);
   }
  
 
@@ -46,13 +49,23 @@ class App extends React.Component {
     }  
     this.setState({filteredMovies:matches}) 
   }
+  changeView(buttonPressed) {
+    if(buttonPressed !== this.state.view) {
+      this.setState({view:buttonPressed})
+    }
+  }
   render(){
+    console.log('viewState', this.state.view)
     return(
-    <div>
+    <div className="movieListContainer">
       <div>
         <MovieAdder addClick={this.addClick}/>
       </div>
-      <div>
+      <div className="watch-search-container">
+        <div className="watch-buttons-container">
+          <WatchButton changeView={this.changeView}buttonType="Watched"/>
+          <WatchButton changeView={this.changeView}buttonType="To Watch"/>
+        </div>
         <Search searchClick={this.searchClick} resetList={this.resetList}></Search>
       </div>
       <div>
