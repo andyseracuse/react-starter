@@ -9,48 +9,37 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      toWatch:[{title:'dogs'}],
+      movies:[],
       filteredMovies: null,
-      view:"To Watch",
-      watched:[],
+      view:"To Watch"
     }
 
     this.searchClick =this.searchClick.bind(this);
     this.resetList = this.resetList.bind(this);
     this.addClick = this.addClick.bind(this);
     this.changeView = this.changeView.bind(this);
-    this.changeWatched = this.changeWatched.bind(this);
   }
  
-  changeWatched(addedMovie, toList, fromList) {
-    var updatedFromList = this.state[fromList].filter(movie => movie.title !== addedMovie.title)
-    var updatedToList = this.state[toList].slice()
-    
-    console.log('this.state[watched]', this.state['watched'])
-    console.log('toList', toList)
-    updatedtoList.push(addedMovie);
-    console.log('updatedToList', updatedToList)
-    this.setState({toList:updatedToList, fromList:updatedFromList})
-  }
+
   resetList (query){
     this.setState({filteredMovies: null})
   }
 
   addClick(input) {
-    var updatedMovies = this.state.toWatch;
+    var updatedMovies = this.state.movies;
     updatedMovies.push({title: input});
-    this.setState({toWatch:updatedMovies});
+    this.setState({movies:updatedMovies});
   }
-//need to fix the search so that it searches through either the watched or to watch depending on the view
+
   searchClick(query) {
     var queryWords = query.toLowerCase().split(' ');
     var matches =[]
-    for (var i = 0; i < this.state.toWatch.length; i++) {
-      var movieTitle = this.state.toWatch[i].title.toLowerCase();
+    for (var i = 0; i < this.state.movies.length; i++) {
+      var movieTitle = this.state.movies[i].title.toLowerCase();
       var movieWords = movieTitle.split(' ')
       for (var j = 0; j < movieWords.length; j++) {
         if (queryWords.includes(movieWords[j])) {
-          matches.push(this.state.toWatch[i]);
+          matches.push(this.state.movies[i]);
           break;
         }
       }
@@ -66,8 +55,7 @@ class App extends React.Component {
     }
   }
   render(){
-    console.log('watched', this.state.watched)
-    console.log('towatch', this.state.toWatch)
+    console.log('viewState', this.state.view)
     return(
     <div className="movieListContainer">
       <div>
@@ -81,7 +69,7 @@ class App extends React.Component {
         <Search searchClick={this.searchClick} resetList={this.resetList}></Search>
       </div>
       <div>
-        <MovieList filteredMovies = {this.state.filteredMovies} changeWatched={this.changeWatched} toWatch = {this.state.toWatch}/>
+        <MovieList filteredMovies = {this.state.filteredMovies} movies = {this.state.movies}/>
       </div>
     </div>
   )}
