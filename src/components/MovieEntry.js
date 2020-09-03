@@ -1,13 +1,13 @@
 import React from 'react';
 
-class MovieEntry extends React.Component {
+class MovieList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       viewState: "toWatch",
       offState: "watched"
     }
-    
+
     this.toggleState = this.toggleState.bind(this);
   }
 
@@ -21,14 +21,13 @@ class MovieEntry extends React.Component {
   }
 
   render () {
-    console.log('props movieEnter', this.props)
     return(
       <div className="movieEntry">
           <h3 className="movieTitle"> {this.props.movie.title}</h3> 
-          <button onClick={() => this.props.changeWatched(this.props.movie, this.state.offState, this.state.viewState)}>Watched</button>
+          <button onClick={this.toggleState}>Watched</button>
       </div>
     )
   }
 }
 
-export default MovieEntry
+export default MovieList

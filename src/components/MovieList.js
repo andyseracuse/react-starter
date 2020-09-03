@@ -9,7 +9,7 @@ var MovieList = (props) => {
       return props.toWatch.map(movie => <MovieEntry changeWatched={props.changeWatched} movie={movie} />)
     }
   } else{
-    return props.filteredMovies.map(movie => <MovieEntry changeWatched={props.changeWatched} movie={movie} />) 
+    return props.filteredMovies.map(movie => <MovieEntry makeWatched={props.changeWatched}movie={movie} />) 
   }
 }
 export default MovieList

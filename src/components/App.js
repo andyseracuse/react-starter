@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies:[{title:'dogs'}],
+      toWatch:[{title:'dogs'}],
       filteredMovies: null,
       view:"To Watch",
       watched:[],
@@ -27,7 +27,7 @@ class App extends React.Component {
     var updatedToList = this.state[toList].slice()
     
     console.log('this.state[watched]', this.state['watched'])
-    console.log('updatedToList', updatedToList)
+    console.log('toList', toList)
     updatedtoList.push(addedMovie);
     console.log('updatedToList', updatedToList)
     this.setState({toList:updatedToList, fromList:updatedFromList})
