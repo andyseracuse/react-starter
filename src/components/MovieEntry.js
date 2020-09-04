@@ -19,10 +19,13 @@ class MovieEntry extends React.Component {
 
   render () {
     console.log('movies', this.props.movie)
-    return (<div className="movieEntry" onClick={this.expand}>
-        <h3 className="movieTitle"> {this.props.movie.title}</h3> 
-        <button onClick={() => this.props.changeWatched(this.props.movie)}>Currently In:{this.props.movie.watchStatus}, Press to change</button>
-        <InfoPane changeWatched={this.props.changeWatched} movie={this.props.movie} expanded={this.state.expanded}/>
+    return (<div className="movieEntry">
+        <div className="searchedMovieSmall">
+          <button onClick={() => this.props.changeWatched(this.props.movie)}>{this.props.movie.watchStatus}</button>
+          <h3 className="movieTitle"> {this.props.movie.title}</h3> 
+          <button onClick={this.expand}>More Info</button>
+      </div>
+      <InfoPane changeWatched={this.props.changeWatched} movie={this.props.movie} expanded={this.state.expanded}/>
     </div>)
   }
 }

@@ -23,6 +23,7 @@ class App extends React.Component {
     this.changeView = this.changeView.bind(this);
     this.changeWatched = this.changeWatched.bind(this);
     this.searchTMDB = this.searchTMDB.bind(this);
+    this.resetAdderList = this.resetAdderList.bind(this);
   }
 
   searchTMDB(query) {
@@ -33,9 +34,12 @@ class App extends React.Component {
   }
  
 
-  resetList (query){
+  resetList (){
     var allMovies = this.state.movies.slice();
     this.setState({displayedMovies: allMovies})
+  }
+  resetAdderList() {
+    this.setState({searchedMovies: []})
   }
   searchClick(query) {
     var queryWords = query.toLowerCase().split(' ');
@@ -115,7 +119,7 @@ class App extends React.Component {
     return(
     <div className="movieListContainer">
       <div>
-        <MovieAdder searchTMDB={this.searchTMDB} movies={this.state.movies}/>
+        <MovieAdder resetAdderList={this.resetAdderList} searchTMDB={this.searchTMDB} movies={this.state.movies}/>
         <SearchedMoviesList addClick={this.addClick} searchedMovies={this.state.searchedMovies}/>
       </div>
       <div className="watch-search-container">
@@ -125,7 +129,7 @@ class App extends React.Component {
         </div>
         <Search searchClick={this.searchClick} resetList={this.resetList}></Search>
       </div>
-      <div>
+      <div className="movieBoxContainer">
         <MovieList displayedMovies={this.state.displayedMovies} changeWatched={this.changeWatched}/>
       </div>
     </div>

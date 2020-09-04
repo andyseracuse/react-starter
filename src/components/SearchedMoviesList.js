@@ -5,7 +5,11 @@ var SearchedMoviesList = (props) => {
   if (props.searchedMovies.length === 0) {
     return <div></div>
   }else {
-    return props.searchedMovies.map(movie => <SearchedMovieEntry movie={movie} addClick={props.addClick}/>)
+    return (
+      <div className="searchResults">
+        {props.searchedMovies.map(movie => <SearchedMovieEntry movie={movie} addClick={props.addClick}/>)}
+      </div>
+    )
   }
 }
 

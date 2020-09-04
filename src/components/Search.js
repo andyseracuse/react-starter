@@ -26,7 +26,7 @@ class Search extends React.Component {
   render() {
     return (
       <form onSubmit={this.submitHandler}>
-        <input type="text" value={this.state.query} placeholder='search...' onChange={this.changeHandler}></input>
+        <input type="text" value={this.state.query} placeholder='search added movies...' onChange={this.changeHandler}></input>
         <button>Go!</button>
       </form>
     )

@@ -18,10 +18,11 @@ class SearchedMovieEntry extends React.Component {
   }
 
   render () {
-    return (<div className="movieEntry" onClick={this.expand}>
-      <div className="searchedMovieTitle">
-        <h3 className="movieTitle"> {this.props.movie.title}</h3> 
+    return (<div className="movieEntry">
+      <div className="searchedMovieSmall">
         <button onClick={() => this.props.addClick (this.props.movie)}>Add Movie</button>
+        <h3 className="movieTitle" > {this.props.movie.title}</h3> 
+        <button onClick={this.expand}>More Info</button>
       </div>
         <InfoPane changeWatched={this.props.changeWatched} movie={this.props.movie} expanded={this.state.expanded}/>
     </div>)

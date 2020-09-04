@@ -18,6 +18,9 @@ class MovieAdder extends React.Component {
   }
 
   changeHandler(event) {
+    if (this.state.input.length === 1) {
+      this.props.resetAdderList()
+    }
     this.setState({input:event.target.value})
   }
 
